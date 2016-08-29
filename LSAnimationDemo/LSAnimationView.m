@@ -27,17 +27,20 @@ static NSInteger const row = 5;
 - (void)setAnimation{
     if (_i == row) {
         for (UIView *view in self.subviews) {
-            [view removeFromSuperview];
+            [view.layer addAnimation:[self animationWithOpacityFrom:1 To:0 Duration:1.1 BeginTime:0] forKey:@"animation"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [view removeFromSuperview];
+            });
         }
         _i = 0;
     }
-    UILabel *label = [self listLabel];
-    [label setFrame:CGRectMake(10, 10 + _i * 40, 250, 30)];
-    label.alpha = 1;
-    [self addSubview:label];
-    [label.layer addAnimation:[self animationWithOpacityFrom:0.0 To:1.0 Duration:1 BeginTime:1] forKey:@"animation"];
-    _i ++;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        UILabel *label = [self listLabel];
+        [label setFrame:CGRectMake(10, 10 + _i * 40, 250, 30)];
+        label.alpha = 1;
+        [self addSubview:label];
+        [label.layer addAnimation:[self animationWithOpacityFrom:0.0 To:1.0 Duration:1 BeginTime:1] forKey:@"animation"];
+        _i ++;
         [self startAnimation];
     });
 }
