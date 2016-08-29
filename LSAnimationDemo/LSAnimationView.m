@@ -15,12 +15,6 @@ static NSInteger const row = 5;
 - (void)awakeFromNib{
     [super awakeFromNib];
     _i = 0;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self startAnimation];
-    });
-}
-
-- (void)startAnimation{
     [self setAnimation];
 }
 
@@ -41,7 +35,7 @@ static NSInteger const row = 5;
         [self addSubview:label];
         [label.layer addAnimation:[self animationWithOpacityFrom:0.0 To:1.0 Duration:1 BeginTime:1] forKey:@"animation"];
         _i ++;
-        [self startAnimation];
+        [self setAnimation];
     });
 }
 
